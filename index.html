@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="vue" @click="change">{{ message.a[1] }}</div>
+<script src="vue.min.js"></script>
+<script>
+  new Vue({
+    el:'div',
+    data:{
+      message:{a:[0,1,2]}
+    },
+    methods:{
+      change:function(){
+      }
+    }
+  });
+</script>
+</body>
+</html>
