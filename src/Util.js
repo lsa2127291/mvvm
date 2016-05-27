@@ -13,21 +13,35 @@ function indexOf (value, arr) {
   }
   return -1;
 }
+
 function trim (str) {
-  var reg = /(?:^\s+) | (?:\s+$) | (?:[\n\r]+)/g;
-  str.replace(reg, '');
+  var reg = /(?:^\s+)|(?:\s+$)|(?:[\n\r]+)/g;
+  return str.replace(reg, '');
 }
-function isArr(it){
+
+function generateField (str) {
+  return str.replace(/\[\s*/g,'.').replace(/\s*\]/g,'');
+}
+
+function isArrayPath (str) {
+
+}
+
+function resolveArrPath (str) {
+
+}
+
+function isArr (it) {
   return Object.prototype.toString.call(it)==='[object Array]';
 }
 
-function isObj(it){
+function isObj (it) {
   //console.log(it);
   //console.log( Object.prototype.toString.call(it));
   return Object.prototype.toString.call(it)==='[object Object]';
 }
 
-function extendDep(){
+function extendDep () {
   var target = arguments[0] || {};
   var sources = Array.prototype.slice.call(arguments,1);
   var srcLen=sources.length;

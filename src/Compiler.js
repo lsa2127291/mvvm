@@ -10,7 +10,7 @@ function Compiler(vm) {
 }
 
 Compiler.prototype.isDirective = function(directive) {
-  return inArray(directive,this.$directives);
+  return indexOf(directive,this.$directives) !== -1;
 };
 
 Compiler.prototype.nodeToFragment = function(element) {
@@ -80,18 +80,20 @@ Compiler.prototype.compileDirective = function (node, attr) {
 Compiler.prototype.compileText = function (node) {
   var text = trim(node.textContent);
   var regText = /\{\{(.+?)\}\}/g;
-  var pieces, matches, content = [], i, pLen;
+  var pieces, matches, content = [], i, pLen, fields = [];
   pieces = text.split(regText);
   pLen = pieces.length;
   matches = text.match(regText);
   for (i = 0; i<pLen; i++){
-    if (inArray('{{' + pieces[i] + '}}',matches)) {
-      content.push('(' + pieces[i] + ')');
+    if (indexOf('{{' + pieces[i] + '}}',matches) !==  -1) {
+      var piece = generateField(trim(pieces[i]));
+      fields.push(piece);
+      content.push('(' + piece + ')');
     }else {
       content.push('"' + pieces[i] + '"');
     }
   }
-  this.$parser.parseVText(node, content);
+  this.$parser.parseVText(node, content, fields);
 };
 
 Compiler.prototype.compile = function (node) {

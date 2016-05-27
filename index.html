@@ -5,16 +5,21 @@
     <title>Title</title>
 </head>
 <body>
-<div class="vue" @click="change">{{ message.a[1] }}</div>
-<script src="vue.min.js"></script>
+<div class="vue" style="background: red">
+  <input v-model="message.a[1]">
+  <p v-text="message.a[1]"></p>
+  {{ message.a[0] }}{{ message.a[1] }} {{ d.c }}
+</div>
+<script src="fast.js"></script>
 <script>
-  new Vue({
+    new Fast({
     el:'div',
     data:{
-      message:{a:[0,1,2]}
+      message:{a: [1, 2, 3]}
     },
     methods:{
       change:function(){
+        this.message.a[0] = 2;
       }
     }
   });

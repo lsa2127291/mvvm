@@ -59,9 +59,10 @@ function Observer (vm) {
   this.depBind(vm.$model, '');
 }
 Observer.prototype.triggerChange = function (paths,prop,value) {
-  console.log(paths);
-  console.log(prop);
-  console.log(value);
+  var field = paths + prop, callbacks = this.$callbacks[field], cLen = callbacks.length, i;
+  for (i = 0; i　< cLen; i++) {
+    callbacks[i][0].apply(callbacks[i][1],[value]);
+  }
 };
 
 Observer.prototype.depBind = function (data,paths) {
@@ -104,16 +105,8 @@ Observer.prototype.bindChange = function (object, prop, paths) {
       return this.getCache(object, prop);
     }).bind(this)
   });
-  if (isArr(object[prop])) {
-    newPaths = paths +  prop + '[';
-    this.depBind(object[prop], newPaths);
-  }
-  else if(isObj(object[prop])){
-    newPaths =  paths[paths.length - 1] === '[' ?  paths + prop + ']'+'.' : paths + prop + '.';
+  if (isArr(object[prop]) || isObj(object[prop])) {
+    newPaths = paths +  prop + '.';
     this.depBind(object[prop], newPaths);
   }
 };
-var data ={};
-data.$model = {a:1,b:2,c:{d:3},e:[0,1,{f:2}]};
-new Observer(data);
-data.$model.e[2].f=4;
